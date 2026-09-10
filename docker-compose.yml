@@ -1,0 +1,39 @@
+﻿services:
+  db:
+    build: ./database
+    container_name: reservavuelos-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: reserva_vuelos
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+  backend:
+    build: ./backend
+    container_name: reservavuelos-backend
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root123
+      DB_NAME: reserva_vuelos
+      SESSION_SECRET: reservavuelos_secret_2026
+      RECAPTCHA_SECRET: 6Ld6CeQsAAAANIEUKo9COPXJDjkve5Hn1XweJ1g
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: reservavuelos-frontend
+    ports:
+      - "8088:80"
+    depends_on:
+      - backend
+
+volumes:
+  db-data:
