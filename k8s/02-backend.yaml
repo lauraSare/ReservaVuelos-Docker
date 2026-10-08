@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: reservavuelos
+data:
+  DB_HOST: db
+  DB_PORT: "3306"
+  DB_USER: root
+  DB_NAME: reserva_vuelos
+  NODE_ENV: production
+  PORT: "3000"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: reservavuelos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: laurasaree/reservavuelos-backend:v2
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: DB_PORT
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: DB_USER
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: DB_NAME
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: NODE_ENV
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: PORT
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: reservavuelos-secret
+                  key: DB_PASSWORD
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: reservavuelos-secret
+                  key: SESSION_SECRET
+            - name: RECAPTCHA_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: reservavuelos-secret
+                  key: RECAPTCHA_SECRET
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: reservavuelos
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: ClusterIP
