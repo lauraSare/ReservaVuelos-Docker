@@ -7,12 +7,12 @@ pipeline {
         }
         stage('Instalar dependencias') {
             steps {
-                dir('backend') { sh 'npm ci' }
+                dir('backend') { bat 'npm ci' }
             }
         }
         stage('Pruebas') {
             steps {
-                dir('backend') { sh 'npm test' }
+                dir('backend') { bat 'npm test' }
             }
         }
         stage('Analisis SonarQube') {
@@ -20,18 +20,10 @@ pipeline {
                 script {
                     def scannerHome = tool 'SonarScanner'
                     withSonarQubeEnv('SonarQube') {
-                        sh "${scannerHome}/bin/sonar-scanner"
+                        bat "\"${scannerHome}\\bin\\sonar-scanner.bat\""
                     }
                 }
             }
-        }
-    }
-    post {
-        success {
-            slackSend(channel: '#ci-jenkins', color: 'good', message: "Build exitoso: ${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL})")
-        }
-        failure {
-            slackSend(channel: '#ci-jenkins', color: 'danger', message: "Build fallido: ${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL})")
         }
     }
 }
