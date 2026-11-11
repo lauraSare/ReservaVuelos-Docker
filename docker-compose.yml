@@ -9,6 +9,12 @@
       - "3307:3306"
     volumes:
       - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 10s
+      retries: 60
+      start_period: 60s
 
   backend:
     build: ./backend
@@ -25,7 +31,9 @@
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    restart: unless-stopped
 
   frontend:
     build: ./frontend

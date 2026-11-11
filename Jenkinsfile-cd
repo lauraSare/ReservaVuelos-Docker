@@ -10,15 +10,22 @@ pipeline {
         stage('Desplegar') {
             steps {
                 bat 'docker compose -p reservavuelos up -d'
-                sleep time: 40, unit: 'SECONDS'
-                bat 'docker compose -p reservavuelos up -d'
             }
         }
         stage('Verificar despliegue') {
             steps {
                 bat 'docker compose -p reservavuelos ps'
-                bat 'curl.exe -f -s -o NUL http://localhost:8088'
+                retry(6) {
+                    sleep time: 5, unit: 'SECONDS'
+                    bat 'curl.exe -f -s -o NUL http://localhost:8088'
+                    bat 'curl.exe -s -o NUL http://localhost:3000'
+                }
             }
+        }
+    }
+    post {
+        failure {
+            bat 'docker compose -p reservavuelos logs --tail 40'
         }
     }
 }
