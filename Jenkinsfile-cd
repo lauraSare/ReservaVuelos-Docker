@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps { checkout scm }
+        }
+        stage('Construir imagenes') {
+            steps { bat 'docker compose -p reservavuelos build' }
+        }
+        stage('Desplegar') {
+            steps {
+                bat 'docker compose -p reservavuelos up -d'
+                sleep time: 40, unit: 'SECONDS'
+                bat 'docker compose -p reservavuelos up -d'
+            }
+        }
+        stage('Verificar despliegue') {
+            steps {
+                bat 'docker compose -p reservavuelos ps'
+                bat 'curl.exe -f -s -o NUL http://localhost:8088'
+            }
+        }
+    }
+}
