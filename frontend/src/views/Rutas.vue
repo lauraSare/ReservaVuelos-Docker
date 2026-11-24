@@ -303,7 +303,7 @@ const error = ref('')
 const rutaEditandoId = ref(null)
 const tiempoSesion = ref('5:00')
 const timerWarning = ref(false)
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const API_URL = import.meta.env.VITE_API_URL || ''
 // Distancias reales basadas en las rutas registradas en BD
 const distanciasPredef = {
     '1-2': { distancia: 1560, duracion: 150 }, // MEX-CUN

@@ -107,7 +107,7 @@ export const iniciarContador = () => {
 export const obtenerCsrfToken = async () => {
   try {
     const res = await axios.get(
-      `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/auth/csrf-token`,
+      `${import.meta.env.VITE_API_URL || ""}/api/auth/csrf-token`,
       { withCredentials: true },
     );
     axios.defaults.headers.common["x-csrf-token"] = res.data.csrfToken;

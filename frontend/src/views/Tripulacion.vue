@@ -417,7 +417,7 @@ const verDetalleTripulante = async (id) => {
     const miembro = tripulacion.value.find(t => t.id_tripulacion === id)
     if (!miembro) return
     try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/vuelos`, { credentials: 'include' })
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/vuelos`, { credentials: 'include' })
         const vuelos = await res.json()
         const vuelosMiembro = vuelos.filter(v =>
             (v.Tripulacions || v.Tripulacion || []).some(t => Number(t.id_tripulacion) === Number(id))

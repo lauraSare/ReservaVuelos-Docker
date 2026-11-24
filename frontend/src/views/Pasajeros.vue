@@ -278,7 +278,7 @@ import { getPasajeros, actualizarPasajero, eliminarPasajero, logoutUsuario } fro
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const API_URL = import.meta.env.VITE_API_URL || ''
 
 const router = useRouter()
 const usuario = ref(null)

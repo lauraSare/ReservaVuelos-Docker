@@ -25,7 +25,7 @@ onMounted(() => {
       const inactivo = Date.now() - ultimaActividad > 60000
       if (inactivo) return
       await axios.get(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/auth/ping`,
+        `${import.meta.env.VITE_API_URL || ''}/api/auth/ping`,
         { withCredentials: true }
       )
     } catch {}

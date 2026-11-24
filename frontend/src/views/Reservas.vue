@@ -675,7 +675,7 @@ const guardarReserva = async () => {
     const { precioFinal, descuentos, maleta } = calcularDescuentos(precioBase, vuelo, 'individual')
 
     // SweetAlert 2 — Mapa de asientos
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+    const API_URL = import.meta.env.VITE_API_URL || ''
     let asientosVuelo = []
     try {
         const resAsientos = await fetch(`${API_URL}/api/vuelos/${form.value.id_vuelo}/asientos`, { credentials: 'include' })
@@ -838,7 +838,7 @@ const guardarReserva = async () => {
 }
 
 const flujoGrupal = async (tipo, vuelo, tipoRuta, clasesDisponibles) => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+    const API_URL = import.meta.env.VITE_API_URL || ''
 
     // Pasajeros disponibles para este vuelo
     const pasajerosDisponibles = pasajerosBase.value.filter(p => {
@@ -1073,7 +1073,7 @@ const confirmarEliminar = async (id) => {
 }
 
 const verBoleto = async (id) => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+    const API_URL = import.meta.env.VITE_API_URL || ''
     try {
         const res = await fetch(`${API_URL}/api/reservas/${id}/boleto`, { credentials: 'include' })
         const data = await res.json()

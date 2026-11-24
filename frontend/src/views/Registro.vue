@@ -356,7 +356,7 @@ const handleRegistro = async () => {
     loading.value = true
     try {
         await axios.post(
-            `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/auth/registro`,
+            `${import.meta.env.VITE_API_URL || ''}/api/auth/registro`,
             { ...form.value, captchaToken: captchaToken.value },
             { withCredentials: true }
         )

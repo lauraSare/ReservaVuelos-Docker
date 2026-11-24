@@ -276,7 +276,7 @@ const error = ref('')
 const avionEditandoId = ref(null)
 const tiempoSesion = ref('5:00')
 const timerWarning = ref(false)
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const API_URL = import.meta.env.VITE_API_URL || ''
 
 const bienvenida = computed(() => {
     if (!usuario.value) return 'Bienvenido'
