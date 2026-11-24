@@ -24,7 +24,11 @@ pipeline {
         }
     }
     post {
+        success {
+            slackSend(color: 'good', message: "Despliegue exitoso: ${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL})")
+        }
         failure {
+            slackSend(color: 'danger', message: "Despliegue fallido: ${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL})")
             bat 'docker compose -p reservavuelos logs --tail 40'
         }
     }
