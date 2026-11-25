@@ -26,4 +26,12 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            slackSend(color: 'good', message: "Build exitoso: ${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL})")
+        }
+        failure {
+            slackSend(color: 'danger', message: "Build fallido: ${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL})")
+        }
+    }
 }
