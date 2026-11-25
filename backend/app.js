@@ -46,6 +46,11 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ─── Health check (antes del rate limiter, sin sesión) ───────
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // ─── Seguridad: Rate Limiting ────────────────────────────────
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,

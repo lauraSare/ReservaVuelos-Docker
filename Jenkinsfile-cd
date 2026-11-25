@@ -15,10 +15,10 @@ pipeline {
         stage('Verificar despliegue') {
             steps {
                 bat 'docker compose -p reservavuelos ps'
-                retry(6) {
+                retry(30) {
                     sleep time: 5, unit: 'SECONDS'
                     bat 'curl.exe -f -s -o NUL http://localhost:8088'
-                    bat 'curl.exe -s -o NUL http://localhost:3000'
+                    bat 'curl.exe -f -s -o NUL http://localhost:8088/api/health'
                 }
             }
         }
